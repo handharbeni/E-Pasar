@@ -8,7 +8,7 @@ exports.showLogin = async (req, res) => {
 }
 
 exports.showDashboard = async (req, res) => {
-  res.render('dashboard', {});
+  res.render('pages/menu/realisasi', {});
 }
 
 exports.showRegister = async (req, res) => {
