@@ -1,0 +1,142 @@
+<% include layout/header %>
+<% include layout/navigation %>
+
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Detail Roles
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Datatable -->
+            <table class="table table-striped- table-bordered table-hover table-checkable" id="tables">
+                <thead>
+                    <tr align='center'>
+                        <th>Permissions</th>
+                        <th align='center'>Read</th>
+                        <th align='center'>Create</th>
+                        <th align='center'>Update</th>
+                        <th align='center'>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(permissions.data.success){ %>
+                        <% permissions.data.data.forEach(
+                            (rows) => { %>
+                            <tr>
+                                <td align='center'><%=rows.name%></td>
+                                <td align='center'>
+                                    <label class="kt-checkbox kt-checkbox--success">
+                                        <input type="checkbox" id="read-<%=rows.id%>" onclick="updateRoles('<%=rows.id%>')" <%=rows.read==1?'checked':''%>>
+                                        <span></span>
+                                    </label>
+                                </td>
+                                <td align='center'>
+                                    <label class="kt-checkbox kt-checkbox--success">
+                                        <input type="checkbox" id="create-<%=rows.id%>" onclick="updateRoles('<%=rows.id%>')" <%=rows.create==1?'checked':''%>>
+                                        <span></span>
+                                    </label>
+                                </td>
+                                <td align='center'>
+                                    <label class="kt-checkbox kt-checkbox--success">
+                                        <input type="checkbox" id="update-<%=rows.id%>" onclick="updateRoles('<%=rows.id%>')" <%=rows.update==1?'checked':''%>>
+                                        <span></span>
+                                    </label>
+                                </td>
+                                <td align='center'>
+                                    <label class="kt-checkbox kt-checkbox--success">
+                                        <input type="checkbox" id="delete-<%=rows.id%>" onclick="updateRoles('<%=rows.id%>')" <%=rows.delete==1?'checked':''%>>
+                                        <span></span>
+                                    </label>
+                                </td>
+                            </tr>
+                            <% }
+                          ) %>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<% include layout/footer %>
+<% include layout/script %>
+
+<script type="text/javascript">
+
+    $('#buttonadd').click(function () {
+        var form = $('#froles');
+        $.ajax({
+            url: $('#froles').attr('action'),
+            data: $('#froles').serialize(),
+            method: $('#_method').val(),
+            success: function (res) {
+                if (res) {
+                    if (res.success == true) {
+                        setInterval(() => { window.location.reload(); }, 1000);
+                        $('#m_select2_modal').modal('hide');
+                        swal({ position: "center", type: "success", title: "Your data has been saved", showConfirmButton: !1, timer: 1500 })
+                    } else {
+                        swal({ position: "center", type: "error", title: res.message, showConfirmButton: !1, timer: 1500 })
+                    }
+                }
+            }
+        })
+    })
+
+    function Clear() {
+        var elements = document.getElementsByTagName("input");
+        var elementsselect = document.getElementsByClassName("form-control");
+        for (var ii = 0; ii < elements.length; ii++) {
+            if (elements[ii].type == "text" || elements[ii].type == "number") {
+                elements[ii].value = "";
+            }
+        }
+        for (var ii = 0; ii < elementsselect.length; ii++) {
+            elementsselect[ii].value = "";
+        }
+    }
+
+    function updateRoles(id){
+        var $read = document.getElementById("read-"+id).checked?1:0
+        var $create = document.getElementById("create-"+id).checked?1:0
+        var $update = document.getElementById("update-"+id).checked?1:0
+        var $delete = document.getElementById("delete-"+id).checked?1:0
+
+        var $data = {}
+        $data.read = $read
+        $data.create = $create
+        $data.update = $update
+        $data.delete = $delete
+
+        $.ajax({
+            url: '/process-roles/'+id,
+            data: serialize($data),
+            method: 'POST',
+            success: function (res) {
+                if (res) {
+                    if (res.success == true) {
+                        swal({ position: "center", type: "success", title: "Roles Updated", showConfirmButton: !1, timer: 1500 })
+                    } else {
+                        swal({ position: "center", type: "error", title: res.message, showConfirmButton: !1, timer: 1500 })
+                    }
+                }
+            }
+        })
+    }
+
+    function serialize(obj) {
+        var str = [];
+        for (var p in obj)
+            if (obj.hasOwnProperty(p)) {
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+        return str.join("&");
+    }
+</script>

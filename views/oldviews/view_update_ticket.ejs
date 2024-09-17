@@ -1,0 +1,182 @@
+<% include layout/header %> <% include layout/navigation %>
+
+<div class="m-content">
+  <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet__head">
+      <div class="m-portlet__head-caption">
+        <div class="m-portlet__head-title">
+          <h3 class="m-portlet__head-text">Update Ticket</h3>
+        </div>
+      </div>
+    </div>
+    <div class="m-portlet__body">
+      <form
+        id="fticket"
+        class="m-form m-form--fit m-form--label-align-right"
+        action="/process-update-ticket"
+        method="POST"
+      >
+        <input
+          type="text"
+          class="form-control"
+          id="_method"
+          hidden
+          name="_method"
+          value="POST"
+        />
+        <div class="modal-body">
+          <div class="form-group m-form__group row">
+            <div class="col-lg-12">
+              <label>Prefix Ticket Number:</label>
+              <input
+                id="prefix_ticket_number"
+                type="text"
+                class="form-control m-input"
+                placeholder="Prefix Ticket Number"
+                name="prefix_ticket_number"
+                autofocus
+              />
+            </div>
+          </div>
+          <div class="form-group m-form__group row">
+            <div class="col-lg-12">
+              <label>Start Ticket Number:</label>
+              <input
+                id="start_ticket_number"
+                type="text"
+                class="form-control m-input"
+                placeholder="Start Ticket Number"
+                name="start_ticket_number"
+              />
+            </div>
+          </div>
+          <div class="form-group m-form__group row">
+            <div class="col-lg-12">
+              <label>End Ticket Number:</label>
+              <input
+                id="end_ticket_number"
+                type="text"
+                class="form-control m-input"
+                placeholder="End Ticket Number"
+                name="end_ticket_number"
+              />
+            </div>
+          </div>
+          <div class="form-group m-form__group row">
+            <div class="col-lg-12">
+              <label>Id Type:</label>
+              <select
+                id="type_ticket"
+                type="text"
+                class="form-control m-input"
+                placeholder="Id Type"
+                name="type_ticket"
+              >
+                <%if(type.data.success){%>
+                  <%type.data.data.forEach( (rows) => { %>
+                    <option value="<%=rows.id%>"><%=rows.name%></option>
+                  <% } )%>
+                <%}%>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn m-btn m-btn--gradient-from-focus m-btn--gradient-to-danger"
+            id="buttonadd"
+          >
+            Proceed
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<% include layout/footer %> <% include layout/script %>
+
+<script type="text/javascript">
+  var typingTimer;
+  var doneTypingInterval = 200;
+  var $inputPrefix = $("#prefix_ticket_number");
+  var $inputStartTicket = $("#start_ticket_number");
+  var $inputEndTicket = $("#end_ticket_number");
+  var $buttonAdd = $("#buttonadd");
+  //on keyup, start the countdown
+  $inputPrefix.on("change", function () {
+    clearTimeout(typingTimer);
+    if ($inputPrefix.value != "") {
+      typingTimer = setTimeout(doneTypingPrefix, doneTypingInterval);
+    }
+  });
+
+  $inputStartTicket.on("change", function () {
+    clearTimeout(typingTimer);
+    if ($inputStartTicket.value != "") {
+      typingTimer = setTimeout(doneTypingStartTicket, doneTypingInterval);
+    }
+  });
+
+  $inputEndTicket.on("change", function () {
+    clearTimeout(typingTimer);
+    if ($inputEndTicket.value != "") {
+      typingTimer = setTimeout(doneTypingEndTicket, doneTypingInterval);
+    }
+  });
+
+  function doneTypingPrefix() {
+    $inputStartTicket.focus();
+  }
+
+  function doneTypingStartTicket() {
+    $inputEndTicket.focus();
+  }
+
+  function doneTypingEndTicket() {}
+  $("#buttonadd").click(function () {
+    var form = $("#fticket");
+    $.ajax({
+      url: $("#fticket").attr("action"),
+      data: $("#fticket").serialize(),
+      method: $("#_method").val(),
+      success: function (res) {
+        Clear();
+        if (res) {
+          if (res.success == true) {
+            swal({
+              position: "center",
+              type: "success",
+              title: "Your data has been saved",
+              showConfirmButton: !1,
+              timer: 1500,
+            });
+          } else {
+            swal({
+              position: "center",
+              type: "error",
+              title: res.message,
+              showConfirmButton: !1,
+              timer: 1500,
+            });
+          }
+        } else {
+          swal({
+            position: "center",
+            type: "error",
+            title: "Server Error, Contact webmaster!",
+            showConfirmButton: !1,
+            timer: 1500,
+          });
+        }
+      },
+    });
+  });
+  function Clear() {
+    $inputPrefix.val("");
+    $inputStartTicket.val("");
+    $inputEndTicket.val("");
+    $inputPrefix.focus();
+  }
+</script>

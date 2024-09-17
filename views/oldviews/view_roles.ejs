@@ -1,0 +1,149 @@
+<% include layout/header %>
+<% include layout/navigation %>
+
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Type
+                    </h3>
+                </div>
+            </div>
+            <div class="m-portlet__head-tools">
+                <ul class="m-portlet__nav">
+                    <li class="m-portlet__nav-item">
+                        <button id="btnadd" type="button"
+                            class="btn m-btn--square  m-btn m-btn--gradient-from-brand m-btn--gradient-to-info">
+                            <i class="la la-map-pin"></i>
+                            <span>
+                                Add Roles
+                            </span>
+                        </button>
+                    </li>
+                    <li class="m-portlet__nav-item"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Datatable -->
+            <table class="table table-striped- table-bordered table-hover table-checkable" id="tables">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(roles.data.success){ %>
+                        <% roles.data.data.forEach(
+                            (rows) => { %>
+                            <tr>
+                                <td><%=rows.id%></td>
+                                <td><%=rows.name%></td>
+                                <td>
+                                    <a id="btnupdate" type="button" href="roles/<%=rows.id%>"
+                                        class="btn m-btn--square  m-btn m-btn--gradient-from-brand m-btn--gradient-to-warning">
+                                        <span>
+                                            Detail
+                                        </span>
+                                    </a>
+                                </td>
+                            </tr>
+                            <% }
+                        ) %>    
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Modal::Add & Edit-->
+<div class="modal fade" id="m_modal_create_update" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">
+                    <p id="titleaction"></p>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="la la-remove"></span>
+                </button>
+            </div>
+            <form id="froles" class="m-form m-form--fit m-form--label-align-right" action="" method="">
+                <div class="modal-body">
+                    <div class="form-group m-form__group row ">
+                        <input type="text" class="form-control" id="_method" hidden name="_method">
+                        <input type="text" class="form-control" id="id_type" hidden name="id_type">
+                        <div class="col-lg-6">
+                            <label>Name:</label>
+                            <input id="name" type="text" class="form-control m-input" placeholder="Name" name="name">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn m-btn m-btn--gradient-from-brand m-btn--gradient-to-info"
+                        data-dismiss="modal" aria-label="Close">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn m-btn m-btn--gradient-from-focus m-btn--gradient-to-danger"
+                        id="buttonadd">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<% include layout/footer %>
+<% include layout/script %>
+
+<script type="text/javascript">
+    $('#btnadd').on('click', function () {
+        Clear();
+        $('#titleaction').html('<h4>Add Roles</h4>');
+        $('#m_modal_create_update').modal('show');
+        $('#froles').attr('action', '/process-roles');
+        $('#froles').attr('method', 'POST');
+        $('#_method').val('POST');
+    })
+
+
+    $('#buttonadd').click(function () {
+        var form = $('#froles');
+        $.ajax({
+            url: $('#froles').attr('action'),
+            data: $('#froles').serialize(),
+            method: $('#_method').val(),
+            success: function (res) {
+                if (res) {
+                    if (res.success == true) {
+                        setInterval(() => { window.location.reload(); }, 1000);
+                        $('#m_select2_modal').modal('hide');
+                        swal({ position: "center", type: "success", title: "Your data has been saved", showConfirmButton: !1, timer: 1500 })
+                    } else {
+                        swal({ position: "center", type: "error", title: res.message, showConfirmButton: !1, timer: 1500 })
+                    }
+                }
+            }
+        })
+    })
+
+    function Clear() {
+        var elements = document.getElementsByTagName("input");
+        var elementsselect = document.getElementsByClassName("form-control");
+        for (var ii = 0; ii < elements.length; ii++) {
+            if (elements[ii].type == "text" || elements[ii].type == "number") {
+                elements[ii].value = "";
+            }
+        }
+        for (var ii = 0; ii < elementsselect.length; ii++) {
+            elementsselect[ii].value = "";
+        }
+    }
+</script>

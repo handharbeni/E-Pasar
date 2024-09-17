@@ -1,0 +1,63 @@
+<% include layout/header %>
+<% include layout/navigation %>
+
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Sell Report
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Datatable -->
+            <table class="table table-striped- table-bordered table-hover table-checkable" id="tables">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Ticket Number</th>
+                        <th>Outlet Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Sell At</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <%if(sellReport.data.success){%>
+                      <% sellReport.data.data.forEach(
+                        (rows) => { %>
+                          <tr>
+                            <td><%=rows.id%></td>
+                            <td><%=rows.ticket_number%></td>
+                            <td><%=rows.name%></td>
+                            <td><%=rows.username%></td>
+                            <td><%=rows.email%></td>
+                            <td><%=rows.sell_at%></td>
+                            <td>
+                              <% if(menu.data.data.entryReport){ %>
+                                <a href="/entry-report/<%=rows.ticket_number%>" type="button" class="btn m-btn--square  m-btn m-btn--gradient-from-brand m-btn--gradient-to-warning">
+                                    <span>
+                                        Detail
+                                    </span>
+                                </a>
+                              <% } %>
+                            </td>
+                          </tr>
+                        <% }
+                      ) %>
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<% include layout/footer %>
+<% include layout/script %>
+
+<script type="text/javascript">
+</script>

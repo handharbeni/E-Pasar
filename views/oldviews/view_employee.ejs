@@ -1,0 +1,301 @@
+<% include layout/header %>
+<% include layout/navigation %>
+
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        Employee
+                    </h3>
+                </div>
+            </div>
+            <div class="m-portlet__head-tools">
+                <ul class="m-portlet__nav">
+                    <li class="m-portlet__nav-item">
+                        <button id="btnadd" type="button"
+                            class="btn m-btn--square  m-btn m-btn--gradient-from-brand m-btn--gradient-to-info">
+                            <i class="la la-map-pin"></i>
+                            <span>
+                                Add Employee
+                            </span>
+                        </button>
+                    </li>
+                    <li class="m-portlet__nav-item">
+                        <a href="/register"
+                            class="btn m-btn--square  m-btn m-btn--gradient-from-warning m-btn--gradient-to-success">
+                            <i class="la la-user"></i>
+                            <span>
+                                Create Employee
+                            </span>
+                        </a>
+                    </li>
+                    <li class="m-portlet__nav-item"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <!--begin: Datatable -->
+            <table class="table table-striped- table-bordered table-hover table-checkable" id="tables">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%if(employee.data.success){%>
+                        <% employee.data.data.forEach(
+                            (rows) => { %>
+                            <tr>
+                                <td><%=rows.id%></td>
+                                <td><%=rows.username%></td>
+                                <td><%=rows.email%></td>
+                                <td>                            
+                                    <button id="btnupdate" type="button"
+                                        onclick="showUpdateRoleDialog(<%=rows.id%>, <%=rows.id_roles%>)"
+                                        class="btn m-btn--square  m-btn m-btn--gradient-from-brand m-btn--gradient-to-info">
+                                        <i class="las la-fingerprint"></i>
+                                        <span>
+                                            Update Roles
+                                        </span>
+                                    </button>        
+                                </td>
+                            </tr>
+                            <% }
+                        ) %>
+                  <%}%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Modal::Add & Edit-->
+<div class="modal fade" id="m_modal_create_update" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">
+                    <p id="titleaction"></p>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="la la-remove"></span>
+                </button>
+            </div>
+            <form id="femployee" class="m-form m-form--fit m-form--label-align-right" action="" method="">
+                <div class="modal-body">
+                    <div class="form-group m-form__group row ">
+                        <input type="text" class="form-control" id="_method" hidden name="_method" value="PUT" />
+                        <input type="text" class="form-control" id="id_outlet" hidden name="id_outlet"
+                            value=<%=dataOutlet.id_outlet%> />
+                        <input type="text" class="form-control" id="type_outlet" hidden name="type_outlet"
+                            value=<%=dataOutlet.type_outlet%> />
+                        <div class="col-lg-6">
+                            <label>Username:</label>
+                            <input id="username" type="text" class="form-control m-input" placeholder="Username"
+                                name="username">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn m-btn m-btn--gradient-from-brand m-btn--gradient-to-info"
+                        data-dismiss="modal" aria-label="Close">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn m-btn m-btn--gradient-from-focus m-btn--gradient-to-danger"
+                        id="buttonadd">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Modal::Delete-->
+<div class="modal fade" id="m_modal_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                    Delete Employee
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">
+                        &times;
+                    </span>
+                </button>
+            </div>
+            <form id="fdoutletseller" class="m-form m-form--fit m-form--label-align-right" action="" method="">
+                <input type="text" class="form-control" id="_method_delete" hidden name="_method">
+                <input type="text" class="form-control" id="id_company_delete" hidden name="id_company">
+                <div class="modal-body">
+                    <p>
+                        Are you sure to delete this data?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        No
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btndelete">
+                        Sure
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="m_modal_update_roles" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                    Update Roles
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">
+                        &times;
+                    </span>
+                </button>
+            </div>
+            <form id="fupdateroles" class="m-form m-form--fit m-form--label-align-right" action="" method="">
+                <input type="text" class="form-control" hidden name="_method">
+                <input type="text" class="form-control" hidden name="id_employee" id="id_employee">
+                <div class="modal-body">
+                    <p>
+                        <div class="col-lg-12">
+                            <label>Roles</label>
+                            <select id="id_roles" class="form-control m-input" placeholder="Roles" name="id_roles">
+                            <%if(roles.data.success){%>
+                                <%roles.data.data.forEach(
+                                (rows) => { %>
+                                    <option value="<%=rows.id%>"><%=rows.name%></option>
+                                <% }
+                                )%>
+                            <%}%>
+                            </select>
+                        </div>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnupdateroles">
+                        Update
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<% include layout/footer %>
+<% include layout/script %>
+
+<script type="text/javascript">
+    $('#btnadd').on('click', function () {
+        // Clear();
+        $('#titleaction').html('<h4>Add Employee</h4>');
+        $('#m_modal_create_update').modal('show');
+        $('#femployee').attr('action', '/process-employee');
+        $('#femployee').attr('method', 'POST');
+        $('#_method').val('PUT');
+    })
+
+    $('#buttonadd').click(function () {
+        var form = $('#femployee');
+        $.ajax({
+            url: $('#femployee').attr('action'),
+            data: $('#femployee').serialize(),
+            method: $('#_method').val(),
+            success: function (res) {
+                if (res) {
+                    if (res.success == true) {
+                        setInterval(() => { window.location.reload(); }, 1000);
+                        $('#m_select2_modal').modal('hide');
+                        swal({ position: "center", type: "success", title: "Your data has been saved", showConfirmButton: !1, timer: 1500 })
+                    } else {
+                        swal({ position: "center", type: "error", title: res.message, showConfirmButton: !1, timer: 1500 })
+                    }
+                }
+            }
+        })
+    })
+
+    $('#btndelete').on('click', e => {
+        var form = $('#fdcompany');
+        $.ajax({
+            url: $('#fdoutletseller').attr('action'),
+            data: $('#fdoutletseller').serialize(),
+            method: $('#_method_delete').val(),
+            success: function (res) {
+                if (res) {
+                    if (res.success == true) {
+                        setInterval(() => { window.location.reload(); }, 1000);
+                        swal({ position: "center", type: "success", title: "Your data has been deleted", showConfirmButton: !1, timer: 1500 })
+                        Clear();
+                    } else {
+                        swal({ position: "center", type: "error", title: res.message, showConfirmButton: !1, timer: 1500 })
+                    }
+                }
+            }
+        })
+    })
+
+    $("#btnupdateroles").on('click', e => {
+        e.preventDefault();
+        var $form = $("#fupdateroles");
+        $.ajax({
+            url: $form.attr('action'),
+            data: $form.serialize(),
+            method: $form.attr('method'),
+            success: res => {
+                if(res){
+                    setInterval(() => { window.location.reload(); }, 1000);
+                    swal({ position: "center", type: "success", title: "Roles Updated", showConfirmButton: !1, timer: 1500 })
+                    Clear();
+                } else {
+                    swal({ position: "center", type: "error", title: res.message, showConfirmButton: !1, timer: 1500 })
+                }
+            }
+        })
+    })
+
+    function showDeleteDialog(id) {
+        Clear();
+        $('#m_modal_delete').modal('show');
+        $('#fdoutletseller').attr('action', '/process-employee');
+        $('#_method_delete').val('DELETE');
+        $('#id_company_delete').val(id);
+    }
+
+    function showUpdateRoleDialog(idEmployee, idRoles){
+        $('#fupdateroles').attr('action', '/process-employee-roles');
+        $('#fupdateroles').attr('method', 'POST');
+        $('#id_employee').attr('value', idEmployee);
+        $('#id_roles').val(idRoles);
+        $('#m_modal_update_roles').modal('show');
+    }
+
+    function Clear() {
+        // var elements = document.getElementsByTagName("input");
+        // var elementsselect = document.getElementsByClassName("form-control");
+        // for (var ii = 0; ii < elements.length; ii++) {
+        //     if (elements[ii].type == "text" || elements[ii].type == "number") {
+        //         elements[ii].value = "";
+        //     }
+        // }
+        // for (var ii = 0; ii < elementsselect.length; ii++) {
+        //     elementsselect[ii].value = "";
+        // }
+    }
+</script>
