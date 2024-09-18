@@ -32,7 +32,7 @@
             pointBorderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff',],
         },{
           label: 'Jumlah Pembayaran',
-          data: [30, 150, 190, 250, 120, 150, 130, 20, 30, 15, 40, 95, 180],
+          data: [60, 120, 10, 220, 170, 125, 150, 190, 190, 200, 210, 290, 190],
           backgroundColor: saleGradientBg2,
           borderColor: [
               '#52CDFF',
@@ -40,10 +40,10 @@
           borderWidth: 1.5,
           fill: true, // 3: no fill
           pointBorderWidth: 1,
-          pointRadius: [0, 0, 0, 4, 0],
-          pointHoverRadius: [0, 0, 0, 2, 0],
-          pointBackgroundColor: ['#52CDFF)', '#52CDFF', '#52CDFF', '#52CDFF','#52CDFF)', '#52CDFF', '#52CDFF', '#52CDFF','#52CDFF)', '#52CDFF', '#52CDFF', '#52CDFF','#52CDFF)'],
-            pointBorderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff',],
+          pointRadius: [4, 4, 4, 4, 4,4, 4, 4, 4, 4,4, 4, 4],
+          pointHoverRadius: [2, 2, 2, 2, 2,2, 2, 2, 2, 2,2, 2, 2],
+          pointBackgroundColor: ['#1F3BB3)', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)'],
+          pointBorderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff',],
       }]
         },
         options: {
@@ -67,7 +67,7 @@
               },
               ticks: {
                 beginAtZero: false,
-                autoSkip: true,
+                autoSkip: false,
                 maxTicksLimit: 4,
                 color:"#6B778C",
                 font: {
@@ -103,9 +103,11 @@
         plugins: [{
           afterDatasetUpdate: function (chart, args, options) {
               const chartId = chart.canvas.id;
+              console.log(chartId)
               var i;
               const legendId = `${chartId}-legend`;
               const ul = document.createElement('ul');
+              console.log(chart.data.datasets)
               for(i=0;i<chart.data.datasets.length; i++) {
                   ul.innerHTML += `
                   <li>
@@ -116,6 +118,146 @@
               }
               return document.getElementById(legendId).appendChild(ul);
             }
+        }]
+      });
+    }
+
+    if ($("#statusKios").length) { 
+      const ctx = document.getElementById('statusKios');
+      var graphGradient = document.getElementById("statusKios").getContext('2d');
+      var graphGradient2 = document.getElementById("statusKios").getContext('2d');
+      var graphGradient3 = document.getElementById("statusKios").getContext('2d');
+
+      var saleGradientBg = graphGradient.createLinearGradient(5, 0, 5, 100);
+      saleGradientBg.addColorStop(0, 'rgba(26, 115, 232, 0.18)');
+      saleGradientBg.addColorStop(1, 'rgba(26, 115, 232, 0.02)');
+
+      var saleGradientBg2 = graphGradient2.createLinearGradient(5, 0, 5, 100);
+      saleGradientBg2.addColorStop(0, 'rgba(255, 82, 82, 0.19)');
+      saleGradientBg2.addColorStop(1, 'rgba(255, 82, 82, 0.03)');
+
+      var saleGradientBg3 = graphGradient3.createLinearGradient(5, 0, 5, 100);
+      saleGradientBg3.addColorStop(0, 'rgba(82, 255, 97, 0.19)');
+      saleGradientBg3.addColorStop(1, 'rgba(82, 255, 97, 0.03)');
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ["SUN","sun", "MON", "mon", "TUE","tue", "WED", "wed", "THU", "thu", "FRI", "fri", "SAT"],
+          datasets: [{
+            label: 'Jumlah Toko',
+            data: [50, 110, 60, 290, 200, 115, 130, 170, 90, 210, 240, 280, 200],
+            backgroundColor: saleGradientBg,
+            borderColor: [
+                '#1F3BB3',
+            ],
+            borderWidth: 1.5,
+            fill: true, // 3: no fill
+            pointBorderWidth: 1,
+            pointRadius: [4, 4, 4, 4, 4,4, 4, 4, 4, 4,4, 4, 4],
+            pointHoverRadius: [2, 2, 2, 2, 2,2, 2, 2, 2, 2,2, 2, 2],
+            pointBackgroundColor: ['#1F3BB3)', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)'],
+            pointBorderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff',],
+        },{
+          label: 'Jumlah Kosong',
+          data: [10, 20, 10, 20, 70, 25, 50, 10, 10, 20, 10, 20, 90],
+          backgroundColor: saleGradientBg2,
+          borderColor: [
+              '#ff5252',
+          ],
+          borderWidth: 1.5,
+          fill: true, // 3: no fill
+          pointBorderWidth: 1,
+          pointRadius: [4, 4, 4, 4, 4,4, 4, 4, 4, 4,4, 4, 4],
+          pointHoverRadius: [2, 2, 2, 2, 2,2, 2, 2, 2, 2,2, 2, 2],
+          pointBackgroundColor: ['#d21414)', '#d21414', '#d21414', '#d21414','#d21414)', '#d21414', '#d21414', '#d21414','#d21414)', '#d21414', '#d21414', '#d21414','#d21414)'],
+          pointBorderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff',],
+      },{
+        label: 'Jumlah Terisi',
+        data: [40, 90, 50, 270, 130, 90, 80, 160, 80, 190, 230, 260, 110],
+        backgroundColor: saleGradientBg3,
+        borderColor: [
+            '#52ff61',
+        ],
+        borderWidth: 1.5,
+        fill: true, // 3: no fill
+        pointBorderWidth: 1,
+        pointRadius: [4, 4, 4, 4, 4,4, 4, 4, 4, 4,4, 4, 4],
+        pointHoverRadius: [2, 2, 2, 2, 2,2, 2, 2, 2, 2,2, 2, 2],
+        pointBackgroundColor: ['#258f2e)', '#258f2e', '#258f2e', '#258f2e','#258f2e)', '#258f2e', '#258f2e', '#258f2e','#258f2e)', '#258f2e', '#258f2e', '#258f2e','#258f2e)'],
+        pointBorderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff',],
+    }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          elements: {
+            line: {
+                tension: 0.4,
+            }
+          },
+        
+          scales: {
+            y: {
+              border: {
+                display: false
+              },
+              grid: {
+                display: true,
+                color:"#F0F0F0",
+                drawBorder: false,
+              },
+              ticks: {
+                beginAtZero: false,
+                autoSkip: false,
+                maxTicksLimit: 4,
+                color:"#6B778C",
+                font: {
+                  size: 10,
+                }
+              }
+            },
+            x: {
+              border: {
+                display: false
+              },
+              grid: {
+                display: false,
+                drawBorder: false,
+              },
+              ticks: {
+                beginAtZero: false,
+                autoSkip: true,
+                maxTicksLimit: 7,
+                color:"#6B778C",
+                font: {
+                  size: 10,
+                }
+              }
+            }
+          },
+          plugins: {
+            legend: {
+                display: true,
+            }
+          }
+        },
+        plugins: [{
+          // afterDatasetUpdate: function (chart, args, options) {
+          //     const chartId = chart.canvas.id;
+          //     var i;
+          //     const legendId = `${chartId}-legend`;
+          //     const ul = document.createElement('ul');
+          //     for(i=0;i<chart.data.datasets.length; i++) {
+          //         ul.innerHTML += `
+          //         <li>
+          //           <span style="background-color: ${chart.data.datasets[i].borderColor}"></span>
+          //           ${chart.data.datasets[i].label}
+          //         </li>
+          //       `;
+          //     }
+          //     return document.getElementById(legendId).appendChild(ul);
+          //   }
         }]
       });
     }

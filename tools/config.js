@@ -9,6 +9,7 @@ module.exports = {
 
     //local
     'server_schema' : 'http://',
-    'server': '66.96.229.251',
+    // 'server': '66.96.229.251',
+    'server': 'localhost',
     'server_port': 20604
 };

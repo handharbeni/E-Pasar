@@ -30,8 +30,8 @@ app.set('trust proxy',1)
 
 const redisClient  = redis.createClient({
     socket: {
-      // host: '66.96.229.251',
-      host: '192.168.1.254',
+      host: '66.96.229.251',
+      // host: '192.168.1.254',
       port: 20901
     }
 });
