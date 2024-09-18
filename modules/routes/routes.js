@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = function(app) {
-    var account = require('../controllers/account.controller');
+    var index = require('../controllers/index.controller');
+    // var account = require('../controllers/account.controller');
     // var company = require('../controllers/company.controller');
     // var employee = require('../controllers/employee.controller');
     // var outletEntry = require('../controllers/outlet_entry.controller');
@@ -13,13 +14,36 @@ module.exports = function(app) {
     // var roles = require('../controllers/roles.controller');
     // var token = require('../controllers/token.controller');
 
-    app.route('/').get(account.showLogin)
-    app.route('/dashboard').get(account.showDashboard)
-    app.route('/register').get(account.showRegister)
-    app.route('/pembayaran').get(account.showPembayaran)
-    app.route('/skrd').get(account.showSkrd)
-    app.route('/datapasar').get(account.showDataPasar)
-    app.route('/realisasi').get(account.showRealisasi)
+
+    app.route('/').get(index.showLogin)
+    app.route('/register').get(index.showRegister)
+
+    app.route('/dashboard').get(index.showDashboard)
+
+    app.route('/payment').get(index.showNotAvailable);
+    app.route('/payment/kios').get(index.showNotAvailable);
+    app.route('/payment/bongkarmuat').get(index.showNotAvailable);
+    app.route('/payment/kios/form').get(index.paymentKios);
+    app.route('/payment/bongkarmuat/form').get(index.paymentBm);
+
+    app.route('/manajemen').get(index.showNotAvailable);
+    app.route('/manajemen/kios').get(index.showNotAvailable);
+    app.route('/manajemen/kios/list').get(index.listKios);
+    app.route('/manajemen/kios/sewa').get(index.sewaKios);
+    app.route('/manajemen/kios/habis').get(index.tutupKios);
+
+    app.route('/tarif').get(index.showNotAvailable);
+    app.route('/tarif/retribusi').get(index.showNotAvailable);
+    app.route('/tarif/retribusi/kios').get(index.showNotAvailable);
+    app.route('/tarif/retribusi/bongkarmuat').get(index.showNotAvailable);
+    app.route('/tarif/retribusi/kios/table').get(index.tarifKios);
+    app.route('/tarif/retribusi/bongkarmuat/table').get(index.tarifBongkarmuat);
+
+    app.route('/pembayaran').get(index.showPembayaran)
+    app.route('/skrd').get(index.showSkrd)
+    app.route('/datapasar').get(index.showDataPasar)
+    app.route('/realisasi').get(index.showRealisasi)
+
     // app.route('/login').get(account.layoutLogin)
     // app.route('/register').get(token, account.layoutRegister)
     // app.route('/company').get(token, company.layoutCompany)

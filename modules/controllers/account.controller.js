@@ -1,36 +1,3 @@
-'use strict'
-var models = require('../../modules/models/api_interface.model')
-var utils = require('../../modules/utils/utils')
-
-
-exports.showLogin = async (req, res) => {
-  res.render('index', {})
-}
-
-exports.showDashboard = async (req, res) => {
-  res.render('pages/menu/realisasi', {});
-}
-
-exports.showRegister = async (req, res) => {
-  res.render('register', {});
-}
-
-exports.showPembayaran = async (req, res) => {
-  res.render('pages/menu/pembayaran', {});
-}
-
-exports.showSkrd = async (req, res) => {
-  res.render('pages/menu/skrd', {});
-}
-
-exports.showDataPasar = async (req, res) => {
-  res.render('pages/menu/datapasar', {});
-}
-
-exports.showRealisasi = async (req, res) => {
-  res.render('pages/menu/realisasi', {});
-}
-
 // exports.layoutCheckinOutletEntry = async (req, res) => {
 //   var session = req.session
 //   var token = session.token

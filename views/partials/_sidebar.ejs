@@ -8,17 +8,42 @@
     </li>
     <li class="nav-item nav-category">Menu</li>
     <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-        <i class="menu-icon mdi mdi-floor-plan"></i>
-        <span class="menu-title">Menu</span>
+      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-payment" aria-expanded="true" aria-controls="ui-basic-payment">
+        <i class="menu-icon mdi mdi-cash-multiple"></i>
+        <span class="menu-title">Pembayaran</span>
         <i class="menu-arrow"></i>
       </a>
-      <div class="collapse" id="ui-basic">
+      <div class="collapse" id="ui-basic-payment">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="<%=baseURL%>/pembayaran">Sewa</a></li>
-          <li class="nav-item"> <a class="nav-link" href="<%=baseURL%>/skrd">SKRD</a></li>
-          <li class="nav-item"> <a class="nav-link" href="<%=baseURL%>/datapasar">Data Pasar</a></li>
-          <li class="nav-item"> <a class="nav-link" href="<%=baseURL%>/realisasi">Realisasi</a></li>
+          <li class="nav-item"> <a class="nav-link" href="<%=baseURL%>/payment/kios/form">Pembayaran Kios</a></li>
+          <li class="nav-item"> <a class="nav-link" href="<%=baseURL%>/payment/bongkarmuat/form">Pembayaran Bongkar Muat</a></li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-store" aria-expanded="false" aria-controls="ui-basic-store">
+        <i class="menu-icon mdi mdi-store"></i>
+        <span class="menu-title">Store</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="ui-basic-store">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item kios"> <a class="nav-link" href="<%=baseURL%>/manajemen/kios/list">List Kios</a></li>
+          <li class="nav-item kios"> <a class="nav-link" href="<%=baseURL%>/manajemen/kios/sewa">Form Sewa / Peralihan Sewa</a></li>
+          <li class="nav-item kios"> <a class="nav-link" href="<%=baseURL%>/manajemen/kios/habis">Tutup / Habis Sewa</a></li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-tarif" aria-expanded="false" aria-controls="ui-basic-tarif">
+        <i class="menu-icon mdi mdi-table"></i>
+        <span class="menu-title">Setting Tarif</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="ui-basic-tarif">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="<%=baseURL%>/tarif/retribusi/kios/table">Tarif Retribusi Kios</a></li>
+          <li class="nav-item"> <a class="nav-link" href="<%=baseURL%>/tarif/retribusi/bongkarmuat/table">Tarif Bongkar Muat</a></li>
         </ul>
       </div>
     </li>
