@@ -42,6 +42,10 @@ exports.paymentBm = async (req, res) => {
   res.render('pages/menu/payment_bongkarmuat_form', {});
 }
 
+exports.addKios = async (req, res) => {
+  res.render('pages/menu/manajemen_kios_tambah', {});
+}
+
 exports.listKios = async (req, res) => {
   res.render('pages/menu/manajemen_kios_list', {});
 }

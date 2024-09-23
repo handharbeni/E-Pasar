@@ -28,6 +28,7 @@ module.exports = function(app) {
 
     app.route('/manajemen').get(index.showNotAvailable);
     app.route('/manajemen/kios').get(index.showNotAvailable);
+    app.route('/manajemen/kios/tambah').get(index.addKios);
     app.route('/manajemen/kios/list').get(index.listKios);
     app.route('/manajemen/kios/sewa').get(index.sewaKios);
     app.route('/manajemen/kios/habis').get(index.tutupKios);
